@@ -79,20 +79,22 @@ static void infer_type(node_t *nptr) {
                     if(nptr -> children[2] -> val.ival == 0){
                         handle_error(ERR_EVAL);
                     }
-                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] -> type != INT_TYPE){
                         handle_error(ERR_TYPE);
                     } 
                     nptr -> type = INT_TYPE; 
                     break;
 
-                //finish 
                 case TOK_AND:
-                    ()
+                    if(nptr -> children[1] -> type != BOOL_TYPE || nptr -> children[2] -> type != INT_TYPE){
+                        handle_error(ERR_EVAL); 
+                    }
                     break;
 
-                //finish
                 case TOK_OR:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != BOOL_TYPE || nptr -> children[2] -> type != INT_TYPE){
+                        handle_error(ERR_EVAL); 
+                    }
                     break;
 
                 //finish
@@ -120,7 +122,7 @@ static void infer_type(node_t *nptr) {
                     break;
                              
                 case TOK_NOT:
-                    if(nptr -> children[[1] -> type != BOOL_TYPE]){
+                    if(nptr -> children[1] -> type != BOOL_TYPE){
                         handle_error(ERR_TYPE); 
                     }
                     nptr -> type = BOOL_TYPE; 
