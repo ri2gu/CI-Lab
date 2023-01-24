@@ -55,14 +55,14 @@ static void infer_type(node_t *nptr) {
                     break;
                 
                 case TOK_BMINUS:
-                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] -> type != INT_TYPE){
                         handle_error(ERR_TYPE);
                     } 
                     nptr -> type = INT_TYPE; 
                     break;
                 
                 case TOK_TIMES:
-                    if(nptr -> children[1]) != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] -> type != INT_TYPE){
                         handle_error(ERR_TYPE); 
                     }
                     nptr -> type = INT_TYPE; 
@@ -85,9 +85,9 @@ static void infer_type(node_t *nptr) {
                     nptr -> type = INT_TYPE; 
                     break;
 
-                //finish
+                //finish 
                 case TOK_AND:
-                    nptr -> type
+                    ()
                     break;
 
                 //finish
@@ -105,19 +105,25 @@ static void infer_type(node_t *nptr) {
                     nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
                     break;
 
-                //finish
                 case TOK_EQ:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                        handle_error(ERR_TYPE);
+                    } 
+                    nptr -> type = INT_TYPE; 
                     break;
 
-                //finish
                 case TOK_UMINUS:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != INT_TYPE){
+                        handle_error(ERR_TYPE); 
+                    }
+                    nptr -> type = INT_TYPE; 
                     break;
-                
-                //finish                
+                             
                 case TOK_NOT:
-                    nptr -> type
+                    if(nptr -> children[[1] -> type != BOOL_TYPE]){
+                        handle_error(ERR_TYPE); 
+                    }
+                    nptr -> type = BOOL_TYPE; 
                     break;
                 
                 // For reference, the identity (do nothing) operator is implemented for you.
