@@ -42,92 +42,106 @@ static void infer_type(node_t *nptr) {
         // Week 3 TODO: Implement tpye evaluation for variables.
         case NT_INTERNAL:
             switch (nptr->tok) {
-                
-                // case TOK_IDENTITY:
-                //     nptr->type = nptr->children[0]->type; 
-                //     break;
                 case TOK_NUM:
-                    nptr -> type = nptr->children[1]-> type = INT_TYPE
+                    nptr -> type = nptr->children[2]-> type = INT_TYPE;
                     break; 
                 
                 case TOK_TRUE:
+                    nptr -> type
                     break; 
 
                 case TOK_FALSE:
+                    nptr -> type
                     break; 
                 
                 case TOK_STR:
+                    nptr -> type
                     break; 
 
                 case TOK_LPAREN:
+                    nptr -> type
                     break; 
 
                 case TOK_RPAREN:
+                    nptr -> type
                     break; 
                 
                 case TOK_QUESTION:
+                    nptr -> type
                     break; 
                 
                 case TOK_COLON:
+                    nptr -> type
                     break; 
                 
                 case TOK_PLUS:
+                    nptr -> type
                     break;
                 
                 case TOK_BMINUS:
+                    nptr -> type
                     break;
                 
                 case TOK_TIMES:
+                    nptr -> type
                     break; 
 
                 case TOK_DIV:
+                    nptr -> type
                     break;
 
                 case TOK_MOD:
+                    nptr -> type
                     break;
 
                 case TOK_AND:
+                    nptr -> type
                     break;
 
                 case TOK_OR:
+                    nptr -> type
                     break;
 
                 case TOK_LT:
+                    nptr -> type
                     break;
 
                 case TOK_GT:
+                    nptr -> type
                     break;
 
                 case TOK_EQ:
+                    nptr -> type
                     break;
 
                 case TOK_UMINUS:
+                    nptr -> type
                     break;
                 
                 case TOK_NOT:
+                    nptr -> type
                     break;
 
                 case TOK_SEP:
+                    nptr -> type
                     break;
 
                 case TOK_EOL:
+                    nptr -> type
                     break;
                 
                 case TOK_ASSIGN:
+                    nptr -> type
                     break;
 
                 case TOK_FMT_SPEC:
+                    nptr -> type
                     break;
                 
                 case TOK_INVALID:
+                    nptr -> type
                     break;
                 
-                case TOK_FMT_SPEC:
-                    break;
-                
-                case TOK_INVALID:
-                    break; 
-
                 // For reference, the identity (do nothing) operator is implemented for you.
                 case TOK_IDENTITY:
                     nptr->type = nptr->children[0]->type; 
