@@ -39,59 +39,43 @@ static void infer_type(node_t *nptr) {
         // For each week, you will also need to include error checking for each type.
         // Week 1 TODO: Implement type inference for all operators on int and bool types.
         // Week 2 TODO: Extend type inference to handle operators on string types.
-        // Week 3 TODO: Implement tpye evaluation for variables.
+        // Week 3 TODO: Implement type evaluation for variables.
         case NT_INTERNAL:
             switch (nptr->tok) {
-                case TOK_NUM:
-                    nptr -> type = nptr->children[2]-> type = INT_TYPE;
-                    break; 
-                
-                case TOK_TRUE:
-                    nptr -> type
-                    break; 
 
-                case TOK_FALSE:
-                    nptr -> type
-                    break; 
-                
-                case TOK_STR:
-                    nptr -> type
-                    break; 
-
-                case TOK_LPAREN:
-                    nptr -> type
-                    break; 
-
-                case TOK_RPAREN:
-                    nptr -> type
-                    break; 
-                
+                //finish 
                 case TOK_QUESTION:
-                    nptr -> type
+                    nptr -> type = nptr -> children[3] -> type = INT_TYPE;
                     break; 
                 
-                case TOK_COLON:
-                    nptr -> type
-                    break; 
-                
+
                 case TOK_PLUS:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                        handle_error(ERR_TYPE); 
+                    }
                     break;
                 
                 case TOK_BMINUS:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                        handle_error(ERR_TYPE);
+                    } 
                     break;
                 
+                //negative int as second argument? 
                 case TOK_TIMES:
-                    nptr -> type
+                    if(nptr -> children[2]) -> 
                     break; 
 
+                //int div? 
                 case TOK_DIV:
                     nptr -> type
                     break;
 
+                //Add additional error 
                 case TOK_MOD:
-                    nptr -> type
+                    if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                        handle_error(ERR_TYPE);
+                    } 
                     break;
 
                 case TOK_AND:
@@ -103,11 +87,11 @@ static void infer_type(node_t *nptr) {
                     break;
 
                 case TOK_LT:
-                    nptr -> type
+                    nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
                     break;
 
                 case TOK_GT:
-                    nptr -> type
+                    nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
                     break;
 
                 case TOK_EQ:
@@ -121,21 +105,9 @@ static void infer_type(node_t *nptr) {
                 case TOK_NOT:
                     nptr -> type
                     break;
-
-                case TOK_SEP:
-                    nptr -> type
-                    break;
-
-                case TOK_EOL:
-                    nptr -> type
-                    break;
                 
-                case TOK_ASSIGN:
-                    nptr -> type
-                    break;
-
                 case TOK_FMT_SPEC:
-                    nptr -> type
+                    nptr -> type = nptr -> children[3] -> type = FMT_TYPE; 
                     break;
                 
                 case TOK_INVALID:
@@ -156,6 +128,12 @@ static void infer_type(node_t *nptr) {
     }
     return;
 }
+
+/* First thing bool
+second and third should be the same type 
+*/
+
+
 
 /* infer_root() - set the type of the root node based on the types of children
  * Parameter: A pointer to a root node, possibly NULL.
