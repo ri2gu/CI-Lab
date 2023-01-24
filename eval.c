@@ -42,75 +42,81 @@ static void infer_type(node_t *nptr) {
         // Week 3 TODO: Implement type evaluation for variables.
         case NT_INTERNAL:
             switch (nptr->tok) {
-
                 //finish 
                 case TOK_QUESTION:
                     nptr -> type = nptr -> children[3] -> type = INT_TYPE;
                     break; 
                 
-
                 case TOK_PLUS:
                     if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
                         handle_error(ERR_TYPE); 
                     }
+                    nptr -> type = INT_TYPE; 
                     break;
                 
                 case TOK_BMINUS:
                     if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
                         handle_error(ERR_TYPE);
                     } 
+                    nptr -> type = INT_TYPE; 
                     break;
                 
-                //negative int as second argument? 
                 case TOK_TIMES:
-                    if(nptr -> children[2]) -> 
+                    if(nptr -> children[1]) != INT_TYPE || nptr -> children[2] != INT_TYPE){
+                        handle_error(ERR_TYPE); 
+                    }
+                    nptr -> type = INT_TYPE; 
                     break; 
 
-                //int div? 
                 case TOK_DIV:
-                    nptr -> type
+                    if(nptr -> children[2] -> val.ival == 0){
+                        handle_error(ERR_EVAL);
+                    }
+                    nptr -> type = INT_TYPE; 
                     break;
 
-                //Add additional error 
                 case TOK_MOD:
+                    if(nptr -> children[2] -> val.ival == 0){
+                        handle_error(ERR_EVAL);
+                    }
                     if(nptr -> children[1] -> type != INT_TYPE || nptr -> children[2] != INT_TYPE){
                         handle_error(ERR_TYPE);
                     } 
+                    nptr -> type = INT_TYPE; 
                     break;
 
+                //finish
                 case TOK_AND:
                     nptr -> type
                     break;
 
+                //finish
                 case TOK_OR:
                     nptr -> type
                     break;
 
+                //finish
                 case TOK_LT:
                     nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
                     break;
 
+                //finish
                 case TOK_GT:
                     nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
                     break;
 
+                //finish
                 case TOK_EQ:
                     nptr -> type
                     break;
 
+                //finish
                 case TOK_UMINUS:
                     nptr -> type
                     break;
                 
+                //finish                
                 case TOK_NOT:
-                    nptr -> type
-                    break;
-                
-                case TOK_FMT_SPEC:
-                    nptr -> type = nptr -> children[3] -> type = FMT_TYPE; 
-                    break;
-                
-                case TOK_INVALID:
                     nptr -> type
                     break;
                 
