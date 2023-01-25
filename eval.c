@@ -42,9 +42,11 @@ static void infer_type(node_t *nptr) {
         // Week 3 TODO: Implement type evaluation for variables.
         case NT_INTERNAL:
             switch (nptr->tok) {
-                //finish 
+                //Set the type 
                 case TOK_QUESTION:
-                    nptr -> type = nptr -> children[3] -> type = INT_TYPE;
+                    if(nptr -> children[1] -> type != BOOL_TYPE || nptr -> children[2] -> type != nptr -> children[3]-> type){
+                        handle_error(ERR_TYPE); 
+                    }
                     break; 
                 
                 case TOK_PLUS:
@@ -89,22 +91,28 @@ static void infer_type(node_t *nptr) {
                     if(nptr -> children[1] -> type != BOOL_TYPE || nptr -> children[2] -> type != INT_TYPE){
                         handle_error(ERR_EVAL); 
                     }
+                    nptr -> type = BOOL_TYPE; 
                     break;
 
                 case TOK_OR:
                     if(nptr -> children[1] -> type != BOOL_TYPE || nptr -> children[2] -> type != INT_TYPE){
                         handle_error(ERR_EVAL); 
                     }
+                    nptr -> type = BOOL_TYPE; 
                     break;
 
-                //finish
                 case TOK_LT:
-                    nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
+                    if(nptr -> children[1] -> type != BOOL_TYPE|| nptr -> children[2] -> type != BOOL_TYPE){
+                        nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
+                    }
+                    nptr -> type = INT_TYPE;
                     break;
 
-                //finish
                 case TOK_GT:
-                    nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
+                    if(nptr -> children[1] -> type != BOOL_TYPE|| nptr -> children[2] -> type != BOOL_TYPE){
+                        nptr -> type = nptr -> children[3] -> type = INT_TYPE; 
+                    }
+                    nptr -> type = INT_TYPE;
                     break;
 
                 case TOK_EQ:
