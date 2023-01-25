@@ -34,7 +34,9 @@ static void infer_type(node_t *nptr) {
     if (terminate || ignore_input) return;
 
     // Week 1 TODO: Implement a recursive post-order traversal of the AST. Remember to include a base case.
-
+    if(nptr == NULL){
+        return; 
+    }
     switch (nptr->node_type) {
         // For each week, you will also need to include error checking for each type.
         // Week 1 TODO: Implement type inference for all operators on int and bool types.
@@ -145,21 +147,11 @@ static void infer_type(node_t *nptr) {
             }
         case NT_LEAF:
             break;
-        
-        //?
-        case NT_ROOT:
-            return; 
         default:
             break;
     }
     return;
 }
-
-/* First thing bool
-second and third should be the same type 
-*/
-
-
 
 /* infer_root() - set the type of the root node based on the types of children
  * Parameter: A pointer to a root node, possibly NULL.
@@ -200,7 +192,9 @@ static void eval_node(node_t *nptr) {
     if (terminate || ignore_input) return;
 
     // Week 1 TODO: Implement a recursive post-order traversal of the AST. Remember to include a base case.
-    
+    if(nptr == NULL){
+        return; 
+    }
     switch (nptr->node_type) {
         case NT_INTERNAL:
             // Week 1 TODO: Implement evaluation for all operators on int and bool types.
