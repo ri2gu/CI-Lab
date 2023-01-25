@@ -148,7 +148,7 @@ static void infer_type(node_t *nptr) {
         
         //?
         case NT_ROOT:
-            break; 
+            return; 
         default:
             break;
     }
