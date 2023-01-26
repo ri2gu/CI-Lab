@@ -212,6 +212,11 @@ static void eval_node(node_t *nptr) {
     if(nptr == NULL){
         return; 
     }
+
+    eval_node(nptr -> children[0]); 
+    eval_node(nptr -> children[1]); 
+    eval_node(nptr -> children[2]); 
+
     switch (nptr->node_type) {
         case NT_INTERNAL:
             // Week 1 TODO: Implement evaluation for all operators on int and bool types.
@@ -268,25 +273,15 @@ static void eval_node(node_t *nptr) {
                         break;
                     
                     case TOK_GT:
-                        if(nptr -> children[0] -> val.ival > nptr -> children[1] -> val.ival){
-                            nptr -> val.ival = nptr -> children[0] -> val.ival; 
-                        }
-                        else{
-                            nptr -> val.bval = nptr -> children[1] -> val.bval; 
-                        }
+                            nptr -> val.bval =  nptr -> children[0] -> val.ival > nptr -> children[1] -> val.ival;
                         break;
                     
                     case TOK_LT:
-                         if(nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival){
-                            nptr -> val.ival = nptr -> children[0] -> val.ival; 
-                        }
-                        else{
-                            nptr -> val.bval = nptr -> children[1] -> val.bval; 
-                        }
+                            nptr -> val.bval = nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival;
                         break;
                     
                     case TOK_EQ:
-                        nptr -> val.bval = nptr -> children[0] -> val.bval; 
+                        nptr -> val.bval = nptr -> children[0] -> val.ival == nptr -> children[1] -> val.ival; 
                         break; 
 
                     default:
