@@ -61,6 +61,7 @@ static void infer_type(node_t *nptr) {
                         handle_error(ERR_TYPE); 
                         return; 
                     }
+                    nptr -> type = nptr -> children[1] -> type; 
                     break; 
                 
                 case TOK_PLUS:
@@ -212,10 +213,37 @@ static void eval_node(node_t *nptr) {
     if(nptr == NULL){
         return; 
     }
+    switch (nptr->tok){        
+        case TOK_QUESTION: 
+            eval_node(nptr -> children[0]);
+            if(nptr -> children[1] -> val.bval == true){
+                eval_node(nptr -> children[1]);
+            }
 
-    eval_node(nptr -> children[0]); 
-    eval_node(nptr -> children[1]); 
-    eval_node(nptr -> children[2]); 
+            else{
+                eval_node(nptr -> children[2]); 
+            }
+            break; 
+        
+        default:
+            eval_node(nptr -> children[0]); 
+            eval_node(nptr -> children[1]); 
+            eval_node(nptr -> children[2]); 
+            break; 
+
+    }
+
+    // switch(nptr -> tok == TOK_QUESTION){
+    //     eval_node(nptr -> children[0]);
+    //     if(nptr -> children[1] -> val.bval == true){
+    //         eval_node(nptr -> children[1]);
+    //     }
+
+    //     else{
+    //         eval_node(nptr -> children[2]); 
+    //     }
+    //     break; 
+    // }
 
     switch (nptr->node_type) {
         case NT_INTERNAL:
@@ -290,18 +318,49 @@ static void eval_node(node_t *nptr) {
             }
 
             if (nptr->tok == TOK_QUESTION) {
-                switch (nptr->tok) {
-                    case TOK_QUESTION:
-                        if(nptr -> children[0] -> val.bval == true){
+                eval_node(nptr -> children[0]);
+                if(nptr -> children[0] -> val.bval == true){
+                    eval_node(nptr -> children[1]);
+                    // switch children 1 type
+                    switch(nptr -> children[1] -> type){
+                        case INT_TYPE:
+                            nptr -> val.ival = nptr -> children[1] -> val.ival; 
+                        case BOOL_TYPE:
                             nptr -> val.bval = nptr -> children[1] -> val.bval; 
-                        }
+                        case STRING_TYPE:
+                            nptr -> val.sval = nptr -> children[1] -> val.sval; 
+                        default:
+                            break; 
+                    }
 
-                        else{
-                            nptr -> val.bval = nptr -> children[2] -> val.bval; 
-                        }
-                    default:
-                        break;
                 }
+                else{
+                    eval_node(nptr -> children[2]);
+                    switch(nptr -> children[2] -> type){
+                        case INT_TYPE:
+                            nptr -> val.ival = nptr -> children[2] -> val.ival; 
+                        case BOOL_TYPE:
+                            nptr -> val.bval = nptr -> children[2] -> val.bval; 
+                        case STRING_TYPE:
+                            nptr -> val.sval = nptr -> children[2] -> val.sval; 
+                        default:
+                            break; 
+                    }
+                }
+                break; 
+                // switch (nptr->tok) {
+                //     case TOK_QUESTION:
+                //         if(nptr -> children[0] -> val.bval == true){
+                //             nptr -> val.ival = nptr -> children[1] -> val.ival; 
+                //         }
+                //         else{
+                //             nptr -> val.ival = nptr -> children[2] -> val.ival; 
+                //         }
+                //         //nptr -> val.ival = nptr -> children[0] -> val.bval ? nptr -> children[1] -> val.ival: nptr -> children[2] -> val.ival; 
+                //         break; 
+                //     default:
+                //         break;
+                // }
             }
             // For reference, the identity (do-nothing) operator has been implemented for you.
             if (nptr->tok == TOK_IDENTITY) {
