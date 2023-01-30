@@ -65,8 +65,8 @@ static void infer_type(node_t *nptr) {
                     break; 
                 
                 case TOK_PLUS:
-                    if(nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE ||
-                        nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != STRING_TYPE){
+                    if(!((nptr -> children[0] -> type == INT_TYPE && nptr -> children[1] -> type == INT_TYPE) ||
+                        (nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type == STRING_TYPE))){
                             handle_error(ERR_TYPE); 
                             return;
                     }
@@ -87,9 +87,10 @@ static void infer_type(node_t *nptr) {
                     nptr -> type = INT_TYPE; 
                     break;
                 
+                //Edit this one 
                 case TOK_TIMES:
-                    if(nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE ||
-                        nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != INT_TYPE){
+                    if( (nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE) ||
+                        (nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != INT_TYPE)){
                             handle_error(ERR_TYPE); 
                             return; 
                     }
@@ -134,8 +135,8 @@ static void infer_type(node_t *nptr) {
                     break;
 
                 case TOK_LT:
-                    if(nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE ||
-                        nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != STRING_TYPE){
+                    if(!((nptr -> children[0] -> type == INT_TYPE && nptr -> children[1] -> type == INT_TYPE) ||
+                        (nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type == STRING_TYPE))){
                             handle_error(ERR_TYPE); 
                             return; 
                     }
@@ -143,8 +144,8 @@ static void infer_type(node_t *nptr) {
                     break;
 
                 case TOK_GT:
-                    if(nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE ||
-                        nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != STRING_TYPE){
+                    if(!((nptr -> children[0] -> type == INT_TYPE && nptr -> children[1] -> type == INT_TYPE) ||
+                        (nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type == STRING_TYPE))){
                             handle_error(ERR_TYPE); 
                             return; 
                     }
@@ -152,8 +153,7 @@ static void infer_type(node_t *nptr) {
                     break;
 
                 case TOK_EQ:
-                    if(nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] ->type != INT_TYPE ||
-                        nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != STRING_TYPE){
+                    if(nptr -> children[0] -> type != nptr -> children[1] -> type){
                             logging(LOG_ERROR, "Failed ~");
                             handle_error(ERR_TYPE);
                             return; 
@@ -162,7 +162,7 @@ static void infer_type(node_t *nptr) {
                     break; 
 
                 case TOK_UMINUS:
-                    if(nptr -> children[0] -> type != INT_TYPE || nptr -> children[0] -> type != STRING_TYPE){
+                    if(!(nptr -> children[0] -> type == INT_TYPE || nptr -> children[0] -> type == STRING_TYPE)){
                         handle_error(ERR_TYPE); 
                         return; 
                     }
