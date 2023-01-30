@@ -93,7 +93,12 @@ static void infer_type(node_t *nptr) {
                             handle_error(ERR_TYPE); 
                             return; 
                     }
-                    nptr -> type = INT_TYPE; 
+                    if(nptr -> children[0] -> type == STRING_TYPE){
+                        nptr -> type = STRING_TYPE;
+                    }
+                    else{
+                        nptr -> type = INT_TYPE; 
+                    }
                     break; 
 
                 case TOK_DIV:
@@ -161,7 +166,12 @@ static void infer_type(node_t *nptr) {
                         handle_error(ERR_TYPE); 
                         return; 
                     }
-                    nptr -> type = INT_TYPE; 
+                    if(nptr -> children[0] -> type == STRING_TYPE){
+                        nptr -> type = STRING_TYPE;
+                    }
+                    else{
+                        nptr -> type = INT_TYPE; 
+                    }
                     break;
                              
                 case TOK_NOT:
