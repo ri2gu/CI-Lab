@@ -87,13 +87,13 @@ static void infer_type(node_t *nptr) {
                     nptr -> type = INT_TYPE; 
                     break;
                 
-                //Edit this one 
                 case TOK_TIMES:
-                    if( (nptr -> children[0] -> type != INT_TYPE && nptr -> children[1] -> type != INT_TYPE) ||
-                        (nptr -> children[0] -> type != STRING_TYPE && nptr -> children[1] -> type != INT_TYPE)){
+                    if(!((nptr -> children[0] -> type == INT_TYPE && nptr -> children[1] -> type == INT_TYPE) ||
+                        (nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type == INT_TYPE))){                          
                             handle_error(ERR_TYPE); 
                             return; 
                     }
+
                     if(nptr -> children[0] -> type == STRING_TYPE){
                         nptr -> type = STRING_TYPE;
                     }
@@ -254,18 +254,6 @@ static void eval_node(node_t *nptr) {
 
     }
 
-    // switch(nptr -> tok == TOK_QUESTION){
-    //     eval_node(nptr -> children[0]);
-    //     if(nptr -> children[1] -> val.bval == true){
-    //         eval_node(nptr -> children[1]);
-    //     }
-
-    //     else{
-    //         eval_node(nptr -> children[2]); 
-    //     }
-    //     break; 
-    // }
-
     switch (nptr->node_type) {
         case NT_INTERNAL:
             // Week 1 TODO: Implement evaluation for all operators on int and bool types.
@@ -273,7 +261,18 @@ static void eval_node(node_t *nptr) {
             if (is_unop(nptr->tok)) {
                 switch (nptr->tok) {
                     case TOK_UMINUS:
-                        nptr -> val.ival = nptr -> children[0] -> val.ival * -1;
+                        if(nptr -> children[0] -> type == INT_TYPE){
+                            nptr -> val.ival = nptr -> children[0] -> val.ival * -1;
+                        }
+                        //else it would be a string reversal 
+                        else{
+                            //malloc, deep copy, free
+                            char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
+                            strcpy(allocate, nptr -> children[0] -> val.sval); 
+                            nptr -> val.sval = strrev(allocate); 
+                            //free(allocate);  
+                            
+                        }
                         break; 
 
                     case TOK_NOT:
@@ -286,7 +285,17 @@ static void eval_node(node_t *nptr) {
             if (is_binop(nptr->tok)) {
                 switch (nptr->tok) {
                     case TOK_PLUS:
-                        nptr -> val.ival = nptr -> children[0] -> val.ival + nptr -> children[1] -> val.ival; 
+                        if(nptr -> children[0] -> type == INT_TYPE){
+                            nptr -> val.ival = nptr -> children[0] -> val.ival + nptr -> children[1] -> val.ival; 
+                        }
+
+                        else{
+                            char *ptr = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = ptr; 
+                            ptr[0] = '\0'; 
+                            strcat(nptr -> val.sval, nptr -> children[0] -> val.sval); 
+                            strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
+                        }
                         break;
                     
                     case TOK_BMINUS:
@@ -294,7 +303,28 @@ static void eval_node(node_t *nptr) {
                          break;
                     
                     case TOK_TIMES:
-                        nptr -> val.ival = nptr -> children[0] -> val.ival * nptr -> children[1] -> val.ival;                    
+                        if(nptr -> children[0] -> type == INT_TYPE){
+                            nptr -> val.ival = nptr -> children[0] -> val.ival * nptr -> children[1] -> val.ival;   
+                        }
+                        
+                        //loop to print how many times it is specified to repeat 
+                        else{
+                            //shoudl be heap instead of stack 
+                            char *ptr = malloc(strlen(nptr -> children[0] -> val.sval) * nptr -> children[1] -> val.ival +1); 
+                            nptr -> val.sval = ptr; 
+                            int index = 0; 
+                            ptr[index] = '\0'; 
+                            for(int i = 0; i < nptr -> children[1] -> val.ival; i++){
+                                //copy into sval directly and strcat
+                                strcat(nptr-> val.sval, nptr -> children[0] -> val.sval); 
+
+                                //strcat(ptr, nptr -> children[0] -> val.sval);
+                                index++; 
+                                //ptr[index] = '\0'; 
+                            }
+                            //nptr -> val.sval = ptr; 
+                            //free(ptr); 
+                        }                 
                         break; 
                     
                     case TOK_DIV:
@@ -322,15 +352,33 @@ static void eval_node(node_t *nptr) {
                         break;
                     
                     case TOK_GT:
+                        if(nptr -> children[0] -> type == INT_TYPE){
                             nptr -> val.bval =  nptr -> children[0] -> val.ival > nptr -> children[1] -> val.ival;
+                        }
+
+                        else{
+                            nptr -> val.bval = nptr -> children[0] -> val.sval > nptr -> children[1] -> val.sval; 
+                        }
                         break;
                     
                     case TOK_LT:
-                            nptr -> val.bval = nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival;
+                            if(nptr -> children[0] -> type == INT_TYPE){
+                                nptr -> val.bval = nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival;
+                            }
+
+                            else{
+                                nptr -> val.bval = nptr -> children[0] -> val.sval < nptr -> children[1] -> val.sval; 
+                            }
                         break;
                     
                     case TOK_EQ:
-                        nptr -> val.bval = nptr -> children[0] -> val.ival == nptr -> children[1] -> val.ival; 
+                        if(nptr -> children[0] -> type == INT_TYPE){
+                            nptr -> val.bval = nptr -> children[0] -> val.ival == nptr -> children[1] -> val.ival; 
+                        }
+
+                        else{
+                            nptr -> val.bval = strcmp(nptr -> children[0] -> val.sval, nptr -> children[1] -> val.sval); 
+                        }
                         break; 
 
                     default:
@@ -338,6 +386,7 @@ static void eval_node(node_t *nptr) {
                 }
             }
 
+            //make deep copies to solve the double free error 
             if (nptr->tok == TOK_QUESTION) {
                 eval_node(nptr -> children[0]);
                 if(nptr -> children[0] -> val.bval == true){
@@ -369,24 +418,13 @@ static void eval_node(node_t *nptr) {
                     }
                 }
                 break; 
-                // switch (nptr->tok) {
-                //     case TOK_QUESTION:
-                //         if(nptr -> children[0] -> val.bval == true){
-                //             nptr -> val.ival = nptr -> children[1] -> val.ival; 
-                //         }
-                //         else{
-                //             nptr -> val.ival = nptr -> children[2] -> val.ival; 
-                //         }
-                //         //nptr -> val.ival = nptr -> children[0] -> val.bval ? nptr -> children[1] -> val.ival: nptr -> children[2] -> val.ival; 
-                //         break; 
-                //     default:
-                //         break;
-                // }
             }
             // For reference, the identity (do-nothing) operator has been implemented for you.
             if (nptr->tok == TOK_IDENTITY) {
                 if (nptr->type == STRING_TYPE) {
                     // Week 2 TODO: You'll need to make a copy of the string.
+                    (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
+                    strcpy(nptr->val.sval, nptr->children[0]->val.sval);
                 } else {
                     nptr->val.ival = nptr->children[0]->val.ival;
                 }
@@ -403,7 +441,7 @@ static void eval_node(node_t *nptr) {
 /* eval_root() - set the value of the root node based on the values of children 
  * Parameter: A pointer to a root node, possibly NULL.
  * Return value: None.
- * Side effect: The val dield of the node is updated. 
+ * Side effect: The val field of the node is updated. 
  */
 
 void eval_root(node_t *nptr) {
@@ -462,7 +500,16 @@ void infer_and_eval(node_t *nptr) {
 
 char *strrev(char *str) {
     // Week 2 TODO: Implement copying and reversing the string.
-    return NULL;
+    char *string = malloc(strlen(str) + 1); 
+    int n = strlen(str); 
+    int index = 0; 
+    for(int i = n-1; i >= 0; i--){
+        string[index] = str[i]; 
+        index++; 
+    }
+    string[index] = '\0'; 
+
+    return string;
 }
 
 /* cleanup() - frees the space allocated to the AST
@@ -470,5 +517,16 @@ char *strrev(char *str) {
  */
 void cleanup(node_t *nptr) {
     // Week 2 TODO: Recursively free each node in the AST
+    if(nptr != NULL){
+        cleanup(nptr -> children[0]);
+        cleanup(nptr -> children[1]);
+        cleanup(nptr -> children[2]); 
+        //free the string 
+        if(nptr -> type == STRING_TYPE){
+            free(nptr -> val.sval);
+        }
+        //free the node 
+        free(nptr); 
+    }
     return;
 }
