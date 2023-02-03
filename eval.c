@@ -419,13 +419,13 @@ static void eval_node(node_t *nptr) {
                         case BOOL_TYPE:
                             nptr -> val.bval = nptr -> children[1] -> val.bval; 
                         case STRING_TYPE:; 
-                            // char *ptr = malloc(strlen(nptr -> children[1] ->val.sval) + 1);
-                            // nptr -> val.sval = ptr; 
+                            char *ptr = malloc(strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = ptr; 
                             // strcpy(nptr -> val.sval, nptr -> children[1] -> val.sval); 
                             // char *ptr = malloc(strlen(nptr -> children[1] -> val.sval) + 1); 
                             // nptr -> val.sval = ptr; 
-                            // ptr[0] = '\0'; 
-                            // strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
+                            ptr[0] = '\0'; 
+                            strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
                             // (nptr->val).sval = (char *) malloc(sizeof(nptr->children[1]->val.ival) + 1);
                             // strcpy(nptr -> val.sval, nptr -> children[1] -> val.ival);
                         default:
@@ -441,10 +441,10 @@ static void eval_node(node_t *nptr) {
                         case BOOL_TYPE:
                             nptr -> val.bval = nptr -> children[2] -> val.bval; 
                         case STRING_TYPE:; 
-                            // char *ptr = malloc(strlen(nptr -> children[2] -> val.sval) + 1); 
-                            // nptr -> val.sval = ptr; 
-                            // ptr[0] = '\0'; 
-                            // strcat(nptr-> val.sval, nptr -> children[2] -> val.sval);
+                            char *ptr = malloc(strlen(nptr -> children[2] -> val.sval) + 1); 
+                            nptr -> val.sval = ptr; 
+                            ptr[0] = '\0'; 
+                            strcat(nptr-> val.sval, nptr -> children[2] -> val.sval);
                             // char *ptr = malloc(strlen(nptr -> children[2] ->val.sval) + 1);
                             // nptr -> val.sval = ptr; 
                             // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval); 
