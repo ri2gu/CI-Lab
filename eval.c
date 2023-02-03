@@ -416,8 +416,10 @@ static void eval_node(node_t *nptr) {
                     switch(nptr -> children[1] -> type){
                         case INT_TYPE:
                             nptr -> val.ival = nptr -> children[1] -> val.ival; 
+                            break;
                         case BOOL_TYPE:
                             nptr -> val.bval = nptr -> children[1] -> val.bval; 
+                            break; 
                         case STRING_TYPE:; 
                             char *ptr = malloc(strlen(nptr -> children[1] ->val.sval) + 1);
                             nptr -> val.sval = ptr; 
@@ -428,6 +430,7 @@ static void eval_node(node_t *nptr) {
                             strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
                             // (nptr->val).sval = (char *) malloc(sizeof(nptr->children[1]->val.ival) + 1);
                             // strcpy(nptr -> val.sval, nptr -> children[1] -> val.ival);
+                            break; 
                         default:
                             break; 
                     }
@@ -438,8 +441,10 @@ static void eval_node(node_t *nptr) {
                     switch(nptr -> children[2] -> type){
                         case INT_TYPE:
                             nptr -> val.ival = nptr -> children[2] -> val.ival; 
+                            break; 
                         case BOOL_TYPE:
-                            nptr -> val.bval = nptr -> children[2] -> val.bval; 
+                            nptr -> val.bval = nptr -> children[2] -> val.bval;
+                            break;  
                         case STRING_TYPE:; 
                             char *ptr = malloc(strlen(nptr -> children[2] -> val.sval) + 1); 
                             nptr -> val.sval = ptr; 
