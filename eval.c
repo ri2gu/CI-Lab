@@ -237,7 +237,7 @@ static void eval_node(node_t *nptr) {
     switch (nptr->tok){        
         case TOK_QUESTION: 
             eval_node(nptr -> children[0]);
-            if(nptr -> children[1] -> val.bval == true){
+            if(nptr -> children[0] -> val.bval == true){
                 eval_node(nptr -> children[1]);
             }
 
@@ -351,7 +351,6 @@ static void eval_node(node_t *nptr) {
                         nptr -> val.bval = nptr -> children[0] -> val.bval || nptr -> children[1] -> val.bval; 
                         break;
                     
-                    //might have to edit this 
                     case TOK_GT:
                         if(nptr -> children[0] -> type == INT_TYPE){
                             nptr -> val.bval =  nptr -> children[0] -> val.ival > nptr -> children[1] -> val.ival;
@@ -369,7 +368,6 @@ static void eval_node(node_t *nptr) {
                         }
                         break;
                     
-                    //might have to edit this 
                     case TOK_LT:
                             if(nptr -> children[0] -> type == INT_TYPE){
                                 nptr -> val.bval = nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival;
@@ -385,7 +383,6 @@ static void eval_node(node_t *nptr) {
                                     nptr -> val.bval = false; 
                                 }
                                 
-                                //nptr -> val.bval = nptr -> children[0] -> val.sval < nptr -> children[1] -> val.sval; 
                             }
                         break;
                     
@@ -421,13 +418,14 @@ static void eval_node(node_t *nptr) {
                             nptr -> val.ival = nptr -> children[1] -> val.ival; 
                         case BOOL_TYPE:
                             nptr -> val.bval = nptr -> children[1] -> val.bval; 
-                        case STRING_TYPE:;
-                            // char *ptrs = malloc(strlen(nptr -> children[1] -> val.sval) + 1); 
-                            // nptr -> val.sval = ptrs; 
-                            // ptrs[0] = '\0';
-                            // strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
-                            (nptr->val).sval = (char *) malloc(strlen(nptr->children[1]->val.sval) + 1);
-                            strcpy(nptr->val.sval, nptr->children[1]->val.sval);
+                        case STRING_TYPE:; 
+                            // char *ptr = malloc(strlen(nptr -> children[1] ->val.sval) + 1);
+                            // nptr -> val.sval = ptr; 
+                            // strcpy(nptr -> val.sval, nptr -> children[1] -> val.sval); 
+                            // char *ptr = malloc(strlen(nptr -> children[1] -> val.sval) + 1); 
+                            // nptr -> val.sval = ptr; 
+                            // ptr[0] = '\0'; 
+                            // strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
                         default:
                             break; 
                     }
@@ -443,12 +441,11 @@ static void eval_node(node_t *nptr) {
                         case STRING_TYPE:; 
                             // char *ptr = malloc(strlen(nptr -> children[2] -> val.sval) + 1); 
                             // nptr -> val.sval = ptr; 
-                            // ptr[0] = '\0';
-                            // strcat(nptr -> val.sval, nptr -> children[2] -> val.sval);
-                            // nptr -> val.sval = nptr -> children[2] -> val.sval; 
-                            (nptr->val).sval = (char *) malloc(strlen(nptr->children[2]->val.sval) + 1);
-                            strcpy(nptr->val.sval, nptr->children[2]->val.sval);
-
+                            // ptr[0] = '\0'; 
+                            // strcat(nptr-> val.sval, nptr -> children[2] -> val.sval);
+                            // char *ptr = malloc(strlen(nptr -> children[2] ->val.sval) + 1);
+                            // nptr -> val.sval = ptr; 
+                            // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval); 
                         default:
                             break; 
                     }
@@ -461,6 +458,10 @@ static void eval_node(node_t *nptr) {
                     // Week 2 TODO: You'll need to make a copy of the string.
                     (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
                     strcpy(nptr->val.sval, nptr->children[0]->val.sval);
+                    // char *ptr = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
+                    // nptr -> val.sval = ptr; 
+                    // ptr[0] = '\0'; 
+                    // strcat(nptr-> val.sval, nptr -> children[0] -> val.sval);
                 } else {
                     nptr->val.ival = nptr->children[0]->val.ival;
                 }
