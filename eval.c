@@ -154,7 +154,7 @@ static void infer_type(node_t *nptr) {
 
                 case TOK_EQ:
                     if(nptr -> children[0] -> type != nptr -> children[1] -> type){
-                            logging(LOG_ERROR, "Failed ~");
+                            //logging(LOG_ERROR, "Failed ~");
                             handle_error(ERR_TYPE);
                             return; 
                     } 
