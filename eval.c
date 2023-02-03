@@ -61,7 +61,7 @@ static void infer_type(node_t *nptr) {
                         handle_error(ERR_TYPE); 
                         return; 
                     }
-                    nptr -> type = nptr -> children[0] -> type; 
+                    nptr -> type = nptr -> children[1] -> type; 
                     break; 
                 
                 case TOK_PLUS:
@@ -455,6 +455,7 @@ static void eval_node(node_t *nptr) {
                             // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval); 
                             // (nptr->val).sval = (char *) malloc(strlen(nptr->children[2]->val.sval) + 1);
                             // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval);
+                            break; 
                         default:
                             break; 
                     }
