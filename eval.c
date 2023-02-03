@@ -358,7 +358,14 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            nptr -> val.bval = nptr -> children[0] -> val.sval > nptr -> children[1] -> val.sval; 
+                            int val = strcmp(nptr -> children[0] -> val.sval, nptr -> children[1] -> val.sval); 
+                                if(val > 0){
+                                    nptr -> val.bval = true; 
+                                }
+
+                                else{
+                                    nptr -> val.bval = false; 
+                                }
                         }
                         break;
                     
