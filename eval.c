@@ -104,7 +104,7 @@ static void infer_type(node_t *nptr) {
 
                 case TOK_DIV:
                     if(nptr -> children[0] -> type != INT_TYPE || nptr -> children[1] -> type != INT_TYPE){
-                        handle_error(ERR_EVAL);
+                        handle_error(ERR_TYPE);
                         return; 
                     }
                     nptr -> type = INT_TYPE; 
