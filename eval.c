@@ -370,7 +370,7 @@ static void eval_node(node_t *nptr) {
 
                             else{
                                 int val = strcmp(nptr -> children[0] -> val.sval, nptr -> children[1] -> val.sval); 
-                                if(val > 0){
+                                if(val < 0){
                                     nptr -> val.bval = true; 
                                 }
 
