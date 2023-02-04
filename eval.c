@@ -517,7 +517,7 @@ void eval_root(node_t *nptr) {
     if (nptr->type == STRING_TYPE) {
         (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
         if (! nptr->val.sval) {
-            logging(LOG_FATAL, "failed to allocate string");
+            //logging(LOG_FATAL, "failed to allocate string");
             return;
         }
         strcpy(nptr->val.sval, nptr->children[0]->val.sval);
