@@ -468,12 +468,12 @@ static void eval_node(node_t *nptr) {
             if (nptr->tok == TOK_IDENTITY) {
                 if (nptr->type == STRING_TYPE) {
                     // Week 2 TODO: You'll need to make a copy of the string.
-                    // (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
-                    // strcpy(nptr->val.sval, nptr->children[0]->val.sval);
-                    char *ptr = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
-                    nptr -> val.sval = ptr; 
-                    ptr[0] = '\0'; 
-                    strcat(nptr-> val.sval, nptr -> children[0] -> val.sval);
+                    (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
+                    strcpy(nptr->val.sval, nptr->children[0]->val.sval);
+                    // char *ptr = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
+                    // nptr -> val.sval = ptr; 
+                    // ptr[0] = '\0'; 
+                    // strcat(nptr-> val.sval, nptr -> children[0] -> val.sval);
                     //free(ptr); 
                 } else {
                     nptr->val.ival = nptr->children[0]->val.ival;
