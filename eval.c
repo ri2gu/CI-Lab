@@ -61,7 +61,7 @@ static void infer_type(node_t *nptr) {
                         handle_error(ERR_TYPE); 
                         return; 
                     }
-                    nptr -> type = nptr -> children[0] -> type; 
+                    nptr -> type = nptr -> children[1] -> type; 
                     break; 
                 
                 case TOK_PLUS:
@@ -295,7 +295,6 @@ static void eval_node(node_t *nptr) {
                             ptr[0] = '\0'; 
                             strcat(nptr -> val.sval, nptr -> children[0] -> val.sval); 
                             strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
-                            //free(ptr); 
                         }
                         break;
                     
@@ -431,7 +430,6 @@ static void eval_node(node_t *nptr) {
                             strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
                             // (nptr->val).sval = (char *) malloc(sizeof(nptr->children[1]->val.ival) + 1);
                             // strcpy(nptr -> val.sval, nptr -> children[1] -> val.ival);
-                            //free(ptr); 
                             break; 
                         default:
                             break; 
@@ -452,12 +450,12 @@ static void eval_node(node_t *nptr) {
                             nptr -> val.sval = ptr; 
                             ptr[0] = '\0'; 
                             strcat(nptr-> val.sval, nptr -> children[2] -> val.sval);
-                            //free(ptr); 
                             // char *ptr = malloc(strlen(nptr -> children[2] ->val.sval) + 1);
                             // nptr -> val.sval = ptr; 
                             // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval); 
                             // (nptr->val).sval = (char *) malloc(strlen(nptr->children[2]->val.sval) + 1);
                             // strcpy(nptr -> val.sval, nptr -> children[2] -> val.sval);
+                            break; 
                         default:
                             break; 
                     }
@@ -474,7 +472,6 @@ static void eval_node(node_t *nptr) {
                     // nptr -> val.sval = ptr; 
                     // ptr[0] = '\0'; 
                     // strcat(nptr-> val.sval, nptr -> children[0] -> val.sval);
-                    //free(ptr); 
                 } else {
                     nptr->val.ival = nptr->children[0]->val.ival;
                 }
