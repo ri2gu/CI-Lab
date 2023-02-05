@@ -290,9 +290,12 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
-                            strcpy(nptr -> val.sval, nptr -> children[0] -> val.sval); 
-                            strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);   
+                            //nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            char *point = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            strcpy(point, nptr -> children[0] -> val.sval); 
+                            strcat(point, nptr -> children[1] -> val.sval);   
+                            nptr -> val.sval = *point;
+                            free(point); 
 
                         }
                         break;
