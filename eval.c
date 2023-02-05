@@ -267,10 +267,13 @@ static void eval_node(node_t *nptr) {
                         //else it would be a string reversal 
                         else{
                             //malloc, deep copy, free
-                            char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
-                            strcpy(allocate, nptr -> children[0] -> val.sval); 
-                            nptr -> val.sval = strrev(allocate); 
-                            free(allocate); 
+                            // char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
+                            // strcpy(allocate, nptr -> children[0] -> val.sval); 
+                            // nptr -> val.sval = strrev(allocate); 
+                            // free(allocate); 
+                            nptr -> val.sval = malloc(strlen(nptr -> children[0] -> val.sval) + 1);
+                            strrev(nptr -> children[0] -> val.sval); 
+                            strcpy(nptr->val.sval, nptr->children[0]->val.sval);
                             
                         }
                         break; 
@@ -290,7 +293,7 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
                             strcpy(nptr -> val.sval, nptr -> children[0] -> val.sval); 
                             strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);
 
@@ -524,15 +527,25 @@ void infer_and_eval(node_t *nptr) {
 
 char *strrev(char *str) {
     // Week 2 TODO: Implement copying and reversing the string.
-    char *string = malloc(strlen(str) + 1); 
-    int n = strlen(str); 
-    int index = 0; 
-    for(int i = n-1; i >= 0; i--){
-        string[index] = str[i]; 
-        index++; 
+    // char *string = malloc(strlen(str) + 1); 
+    // int n = strlen(str); 
+    // int index = 0; 
+    // for(int i = n-1; i >= 0; i--){
+    //     string[index] = str[i]; 
+    //     index++; 
+    // }
+    // string[index] = '\0'; 
+    // return string;
+    int length = strlen(str); 
+    int middle = length/2; 
+    char temp; 
+    for(int i = 0; i < middle; i++){
+        temp = str[i]; 
+        str[i] = str[length - i - 1];
+        str[length - i - 1] = temp; 
     }
-    string[index] = '\0'; 
-    return string;
+
+    return str; 
   
 }
 
