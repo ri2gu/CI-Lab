@@ -573,7 +573,7 @@ char *strrev(char *str) {
         index++; 
     }
     string[index] = '\0'; 
-
+    free(string); 
     return string;
 }
 
