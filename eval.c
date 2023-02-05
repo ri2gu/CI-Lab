@@ -294,9 +294,10 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            nptr -> val.sval = (char *)malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
                             strcpy(nptr -> val.sval, nptr -> children[0] -> val.sval); 
-                            strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);    
+                            strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);   
+
                         }
                         break;
                     
@@ -312,10 +313,10 @@ static void eval_node(node_t *nptr) {
                         //loop to print how many times it is specified to repeat 
                         else{
                             //shoudl be heap instead of stack 
-                            char *ptr = malloc(strlen(nptr -> children[0] -> val.sval) * nptr -> children[1] -> val.ival +1); 
-                            nptr -> val.sval = ptr; 
+                            nptr -> val.sval = malloc(strlen(nptr -> children[0] -> val.sval) * nptr -> children[1] -> val.ival +1); 
+                            //nptr -> val.sval = ptr; 
                             int index = 0; 
-                            ptr[index] = '\0'; 
+                            nptr -> val.sval[index] = '\0'; 
                             for(int i = 0; i < nptr -> children[1] -> val.ival; i++){
                                 //copy into sval directly and strcat
                                 strcat(nptr-> val.sval, nptr -> children[0] -> val.sval); 
