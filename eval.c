@@ -269,8 +269,12 @@ static void eval_node(node_t *nptr) {
                             //malloc, deep copy, free
                             char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
                             strcpy(allocate, nptr -> children[0] -> val.sval); 
-                            nptr -> val.sval = strrev(allocate); 
+                            //nptr -> val.sval = strrev(allocate); 
+                            char *point = strrev(allocate); 
+                            nptr -> val.sval= point; 
+                            free(point); 
                             free(allocate); 
+
                             
                         }
                         break; 
