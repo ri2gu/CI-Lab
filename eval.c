@@ -439,13 +439,20 @@ static void eval_node(node_t *nptr) {
                             break; 
                         case STRING_TYPE:; 
                             char *ptr = malloc(strlen(nptr -> children[1] ->val.sval) + 1);
-                            nptr -> val.sval = ptr; 
-                            // strcpy(nptr -> val.sval, nptr -> children[1] -> val.sval); 
-                            // char *ptr = malloc(strlen(nptr -> children[1] -> val.sval) + 1); 
                             // nptr -> val.sval = ptr; 
+                            // // strcpy(nptr -> val.sval, nptr -> children[1] -> val.sval); 
+                            // // char *ptr = malloc(strlen(nptr -> children[1] -> val.sval) + 1); 
+                            // // nptr -> val.sval = ptr; 
                             
+                            // ptr[0] = '\0'; 
+                            // strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
                             ptr[0] = '\0'; 
-                            strcat(nptr-> val.sval, nptr -> children[1] -> val.sval);
+                            strcat(ptr, nptr -> children[1] -> val.sval);
+                            nptr -> val.sval = ptr; 
+                            free(ptr); 
+
+                        
+
 
 
 
