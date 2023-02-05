@@ -291,19 +291,13 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            // char *ptr = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
-                            // nptr -> val.sval = ptr; 
-                            // ptr[0] = '\0'; 
-                            // strcat(nptr -> val.sval, nptr -> children[0] -> val.sval); 
-                            // strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
+                            char *ptr = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = ptr; 
+                            ptr[0] = '\0'; 
+                            strcat(nptr -> val.sval, nptr -> children[0] -> val.sval); 
+                            strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
+                            free(ptr); 
 
-                            char *point = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
-                            //nptr -> val.sval = ptr; 
-                            point[0] = '\0'; 
-                            strcat(point, nptr -> children[0] -> val.sval); 
-                            strcat(point, nptr -> children[1] -> val.sval); 
-                            nptr -> val.sval = point; 
-                            free(point); 
 
 
                             // char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
