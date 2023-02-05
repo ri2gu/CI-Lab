@@ -290,7 +290,7 @@ static void eval_node(node_t *nptr) {
                         }
 
                         else{
-                            (nptr->val).sval = (char *)malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
                             strcpy(nptr -> val.sval, nptr -> children[0] -> val.sval); 
                             strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);   
 
@@ -547,7 +547,7 @@ void cleanup(node_t *nptr) {
         //free the string 
         if(nptr -> type == STRING_TYPE){
             free(nptr -> val.sval);
-            //nptr -> val.sval = NULL; 
+            nptr -> val.sval = NULL; 
         }
         //free the node 
         free(nptr); 
