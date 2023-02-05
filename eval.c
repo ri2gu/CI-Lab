@@ -271,7 +271,7 @@ static void eval_node(node_t *nptr) {
                             strcpy(allocate, nptr -> children[0] -> val.sval); 
                             nptr -> val.sval = strrev(allocate); 
                             //char *string = strrev(allocate);
-                            //free(string); 
+                            free(strrev(allocate)); 
                             free(allocate); 
                             
                         }
