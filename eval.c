@@ -269,11 +269,11 @@ static void eval_node(node_t *nptr) {
                             //malloc, deep copy, free
                             char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
                             strcpy(allocate, nptr -> children[0] -> val.sval); 
-                           // nptr -> val.sval = strrev(allocate); 
-                            char *ptr = strrev(allocate);
-                            nptr -> val.sval = ptr;  
+                            nptr -> val.sval = strrev(allocate); 
+                            //char *ptr = strrev(allocate);
+                            //nptr -> val.sval = ptr;  
                             //char *string = strrev(allocate);
-                            free(ptr);
+                            //free(ptr);
                             free(allocate); 
                             
                         }
@@ -591,6 +591,7 @@ void cleanup(node_t *nptr) {
         //free the string 
         if(nptr -> type == STRING_TYPE){
             free(nptr -> val.sval);
+            nptr -> val.sval = NULL; 
         }
         //free the node 
         free(nptr); 
