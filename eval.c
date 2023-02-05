@@ -270,7 +270,6 @@ static void eval_node(node_t *nptr) {
                             char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
                             strcpy(allocate, nptr -> children[0] -> val.sval); 
                             nptr -> val.sval = strrev(allocate); 
-                            nptr -> val.sval= point; 
                             free(allocate); 
                             
                         }
