@@ -308,13 +308,13 @@ static void eval_node(node_t *nptr) {
                     case TOK_TIMES:
                         if(nptr -> children[0] -> type == INT_TYPE){
                             nptr -> val.ival = nptr -> children[0] -> val.ival * nptr -> children[1] -> val.ival;   
+                            break; 
                         }
                         
                         //loop to print how many times it is specified to repeat 
                         else{
                             //shoudl be heap instead of stack 
-                            nptr -> val.sval = malloc(strlen(nptr -> children[0] -> val.sval) * nptr -> children[1] -> val.ival +1); 
-                            //nptr -> val.sval = ptr; 
+                            nptr -> val.sval = malloc(strlen(nptr -> children[0] -> val.sval) * nptr -> children[1] -> val.ival + 1); 
                             int index = 0; 
                             nptr -> val.sval[index] = '\0'; 
                             for(int i = 0; i < nptr -> children[1] -> val.ival; i++){
@@ -322,9 +322,7 @@ static void eval_node(node_t *nptr) {
                                 strcat(nptr-> val.sval, nptr -> children[0] -> val.sval); 
                                 index++; 
                             }
-
-
-
+                            break; 
                         }                 
                         break; 
                     
