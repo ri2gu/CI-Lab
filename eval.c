@@ -533,6 +533,7 @@ char *strrev(char *str) {
     }
     string[index] = '\0'; 
     return string;
+  
 }
 
 /* cleanup() - frees the space allocated to the AST
