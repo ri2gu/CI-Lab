@@ -296,7 +296,7 @@ static void eval_node(node_t *nptr) {
                             ptr[0] = '\0'; 
                             strcat(nptr -> val.sval, nptr -> children[0] -> val.sval); 
                             strcat(nptr -> val.sval, nptr -> children[1] -> val.sval); 
-                            free(ptr); 
+
 
 
 
