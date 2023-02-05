@@ -272,6 +272,7 @@ static void eval_node(node_t *nptr) {
                             nptr -> val.sval = strrev(allocate); 
                             char *string = strrev(allocate);
                             free(string); 
+                            free(allocate); 
                             
                         }
                         break; 
