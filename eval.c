@@ -236,14 +236,6 @@ static void eval_node(node_t *nptr) {
     }
     switch (nptr->tok){        
         case TOK_QUESTION: 
-            eval_node(nptr -> children[0]);
-            if(nptr -> children[0] -> val.bval == true){
-                eval_node(nptr -> children[1]);
-            }
-
-            else{
-                eval_node(nptr -> children[2]); 
-            }
             break; 
         
         default:
@@ -267,14 +259,7 @@ static void eval_node(node_t *nptr) {
                         //else it would be a string reversal 
                         else{
                             //malloc, deep copy, free
-                            // char *allocate = malloc(strlen(nptr -> children[0] -> val.sval) + 1); 
-                            // strcpy(allocate, nptr -> children[0] -> val.sval); 
-                            // nptr -> val.sval = strrev(allocate); 
-                            // free(allocate); 
-                            nptr -> val.sval = malloc(strlen(nptr -> children[0] -> val.sval) + 1);
-                            strrev(nptr -> children[0] -> val.sval); 
-                            strcpy(nptr->val.sval, nptr->children[0]->val.sval);
-                            
+                            nptr -> val.sval = strrev(nptr -> children[0] -> val.sval); 
                         }
                         break; 
 
@@ -290,13 +275,14 @@ static void eval_node(node_t *nptr) {
                     case TOK_PLUS:
                         if(nptr -> children[0] -> type == INT_TYPE){
                             nptr -> val.ival = nptr -> children[0] -> val.ival + nptr -> children[1] -> val.ival; 
+                            break; 
                         }
 
                         else{
-                            nptr -> val.sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
+                            nptr -> val.sval = malloc(strlen(nptr->children[0]->val.sval) + strlen(nptr -> children[1] ->val.sval) + 1);
                             strcpy(nptr -> val.sval, nptr -> children[0] -> val.sval); 
                             strcat(nptr -> val.sval, nptr -> children[1] -> val.sval);
-
+                            break; 
                         }
                         break;
                     
@@ -497,7 +483,7 @@ void eval_root(node_t *nptr) {
     if (nptr->type == STRING_TYPE) {
         (nptr->val).sval = (char *) malloc(strlen(nptr->children[0]->val.sval) + 1);
         if (! nptr->val.sval) {
-            //logging(LOG_FATAL, "failed to allocate string");
+            logging(LOG_FATAL, "failed to allocate string");
             return;
         }
         strcpy(nptr->val.sval, nptr->children[0]->val.sval);
@@ -527,25 +513,27 @@ void infer_and_eval(node_t *nptr) {
 
 char *strrev(char *str) {
     // Week 2 TODO: Implement copying and reversing the string.
-    // char *string = malloc(strlen(str) + 1); 
-    // int n = strlen(str); 
-    // int index = 0; 
-    // for(int i = n-1; i >= 0; i--){
-    //     string[index] = str[i]; 
-    //     index++; 
-    // }
-    // string[index] = '\0'; 
-    // return string;
-    int length = strlen(str); 
-    int middle = length/2; 
-    char temp; 
-    for(int i = 0; i < middle; i++){
-        temp = str[i]; 
-        str[i] = str[length - i - 1];
-        str[length - i - 1] = temp; 
+    char *string = malloc(strlen(str) + 1); 
+    int n = strlen(str); 
+    int index = 0; 
+    for(int i = n-1; i >= 0; i--){
+        string[index] = str[i]; 
+        index++; 
     }
+    string[index] = '\0'; 
+    return string;
 
-    return str; 
+    // int len = strlen(str); 
+    // int mid = len/2; 
+    // char temp; 
+    // for (int i = 0; i < mid; i++){
+    //     temp = str[i]; 
+    //     str[i] = str[len - i -1]; 
+    //     str[len - i - 1] = temp; 
+
+    // }
+
+    // return str; 
   
 }
 
@@ -561,7 +549,7 @@ void cleanup(node_t *nptr) {
         //free the string 
         if(nptr -> type == STRING_TYPE){
             free(nptr -> val.sval);
-            nptr -> val.sval = NULL; 
+            //nptr -> val.sval = NULL; 
         }
         //free the node 
         free(nptr); 
