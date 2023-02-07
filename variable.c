@@ -30,7 +30,7 @@ void init_table(void) {
     return;
 }
 
-void delete_entry(entry_t *eptr) {
+void delete_entry(entry_t* eptr) {
     if (! eptr) return;
     if (eptr->type == STRING_TYPE) {
         free(eptr->val.sval);
@@ -114,22 +114,27 @@ void put(char *id, node_t *nptr) {
     // Week 3 TODO: Implement adding to the hashtable.
     int index = hash_function(id); 
     //if there isn't any entry for that hashcode in the hashtable 
-    if(var_table(index) == NULL){
-        init_entry(id); 
+    if(var_table->entries[index] == NULL){
+        var_table->entries[index] = init_entry(id, nptr); 
     }
 
     //if the hashcodes are the same and you run into a collision 
-    else if(var_table(index) != NULL){
-        entry_t -> *next;
+    else if(var_table->entries[index] != NULL){
+       entry_t* root = var_table->entries[index];
     }
 
     //if you reassign the variable, then you want to put the new one in its place 
     else{
         //delete the old node
-        delete_entry(id);
+        //loop through, strcmp, pass into delete entry
+        for(int i = 0; i < sizeof(var_table -> entries); i++){
+            if(strcmp(var_table -> entries[i] -> val.sval, id) == 0){
+                delete_entry(var_table -> entries[i]); 
+            }
+        }
 
         //create the new node 
-        init_entry(id); 
+        var_table->entries[index] = init_entry(id, nptr);  
     }
     return;
 }
@@ -143,7 +148,15 @@ void put(char *id, node_t *nptr) {
 entry_t* get(char* id) {
     // Week 3 TODO: Implement retrieving from the hasttable.
     //you just search for the id and have the pointer return it 
-    return entry;
+    //loop through and compare 
+        for(int i = 0; i < sizeof(var_table -> entries); i++){
+            if(strcmp(var_table -> entries[i] -> val.sval, id) == 0){
+                return var_table -> entries[i]; 
+            }
+        }
+    
+    //if the same entry is never found, just return NULL 
+    return NULL;
 }
 
 void print_entry(entry_t *eptr) {
