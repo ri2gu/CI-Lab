@@ -110,9 +110,27 @@ entry_t * init_entry(char *id, node_t *nptr) {
  * it already exists.
  * (STUDENT TODO) 
  */
-
 void put(char *id, node_t *nptr) {
     // Week 3 TODO: Implement adding to the hashtable.
+    int index = hash_function(id); 
+    //if there isn't any entry for that hashcode in the hashtable 
+    if(var_table(index) == NULL){
+        init_entry(id); 
+    }
+
+    //if the hashcodes are the same and you run into a collision 
+    else if(var_table(index) != NULL){
+        entry_t -> *next;
+    }
+
+    //if you reassign the variable, then you want to put the new one in its place 
+    else{
+        //delete the old node
+        delete_entry(id);
+
+        //create the new node 
+        init_entry(id); 
+    }
     return;
 }
 
@@ -124,7 +142,8 @@ void put(char *id, node_t *nptr) {
 
 entry_t* get(char* id) {
     // Week 3 TODO: Implement retrieving from the hasttable.
-    return NULL;
+    //you just search for the id and have the pointer return it 
+    return entry;
 }
 
 void print_entry(entry_t *eptr) {
