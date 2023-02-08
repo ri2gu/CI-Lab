@@ -183,14 +183,34 @@ static void infer_type(node_t *nptr) {
                     }
                     nptr -> type = BOOL_TYPE; 
                     break;
+
+                case TOK_ASSIGN:
+                    //looping through each of the children to individually infer their type
+                    for(int i = 0; i < 2; i++){
+                        infer_type(nptr -> children[i]);
+                    }
+                    if(nptr-> children[0]-> type != ID_TYPE || nptr -> children[1]-> type == ID_TYPE) {
+                        handle_error(ERR_TYPE);
+                        return; 
+                    } 
+                    nptr->type = nptr-> children[1]-> type;
+                    break;
+
                 default:
                     break;
             }
         case NT_LEAF:
             switch(nptr -> tok){
-                case TOK_ID:
-                    get(nptr -> val.sval);
-                    //nptr -> type = 
+                case TOK_ID:; 
+                    //getting the pointer of the id from the hashtable 
+                    entry_t* index = get(nptr-> val.sval);
+                    //throw an error if there isn't an entry for that id
+                    if(index == NULL){
+                        handle_error(ERR_UNDEFINED); 
+                        return; 
+                    }
+                    //set nptr's type equal to the type of the variable's value 
+                    nptr -> type = index -> type; 
                     break; 
                 
                 default:
