@@ -200,7 +200,7 @@ static void infer_type(node_t *nptr) {
                 case TOK_ID:; 
                     //getting the pointer of the id from the hashtable 
                     entry_t* index = get(nptr-> val.sval);
-                    // free(nptr -> val.sval); 
+                    free(nptr -> val.sval); 
                     //throw an error if there isn't an entry for that id
                     if(index == NULL){
                         handle_error(ERR_UNDEFINED); 
