@@ -121,6 +121,15 @@ void put(char *id, node_t *nptr) {
     //if the hashcodes are the same and you run into a collision 
     else if(var_table->entries[index] != NULL){
        entry_t* root = var_table->entries[index];
+       while(root -> next != NULL){
+           //if the id is the same, delete the entry 
+           if(root -> next == ){
+               delete_entry(root -> next); 
+           }
+           root -> next = root; 
+       }
+       root -> next = init_entry(id, nptr);
+       //delete if same id 
     }
 
     //if you reassign the variable, then you want to put the new one in its place 
