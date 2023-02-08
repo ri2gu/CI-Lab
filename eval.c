@@ -186,9 +186,6 @@ static void infer_type(node_t *nptr) {
 
                 case TOK_ASSIGN:
                     //looping through each of the children to individually infer their type
-                    for(int i = 0; i < 2; i++){
-                        infer_type(nptr -> children[i]);
-                    }
                     if(nptr-> children[0]-> type != ID_TYPE || nptr -> children[1]-> type == ID_TYPE) {
                         handle_error(ERR_TYPE);
                         return; 
