@@ -129,6 +129,7 @@ void put(char *id, node_t *nptr) {
                delete_entry(root -> next); 
                //create the new node 
                var_table->entries[index] = init_entry(id, nptr); 
+               return; 
            }
             //if that entry didn't match the current id 
            root -> next = root; 
@@ -136,6 +137,7 @@ void put(char *id, node_t *nptr) {
        //if there were no entries with matching ids
        root -> next = init_entry(id, nptr);
     }
+
 
     //if you reassign the variable, then you want to put the new one in its place 
     // else{

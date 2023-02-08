@@ -585,7 +585,7 @@ void cleanup(node_t *nptr) {
         cleanup(nptr -> children[1]);
         cleanup(nptr -> children[2]); 
         //free the string 
-        if(nptr -> type == STRING_TYPE){
+        if(nptr -> type == STRING_TYPE || nptr -> type == ID_TYPE){
             free(nptr -> val.sval);
             //nptr -> val.sval = NULL; 
         }
