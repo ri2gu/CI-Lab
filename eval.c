@@ -475,9 +475,29 @@ static void eval_node(node_t *nptr) {
             }
             break;
         case NT_LEAF:
-            break;
+            switch(nptr -> tok){
+                case TOK_ID:;
+                    entry_t* place = get(nptr -> val.sval);
+                    if(place == NULL){
+                        handle_error(ERR_SYNTAX);
+                        return;
+                    }
+                    if(nptr -> type == INT_TYPE){
+                        nptr -> val.ival = place -> val.ival;
+                    }
+                    else if(nptr -> type == BOOL_TYPE){
+                        nptr -> val.bval = place -> val.bval;
+                    }
+                    else if(nptr -> type == STRING_TYPE){
+                        nptr->val.sval = malloc(strlen(place -> val.sval) + 1);
+                    }
+                break; 
         default:
             break;
+        }
+        break; 
+    default:
+        break; 
     }
     return;
 }
