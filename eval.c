@@ -498,12 +498,6 @@ static void eval_node(node_t *nptr) {
                     else if(nptr -> type == STRING_TYPE){
                         nptr -> val.sval = malloc(strlen(place -> val.sval) + 1);
                     }
-
-                    else{
-                        handle_error(ERR_EVAL); 
-                    }
-
-
                 break; 
         default:
             break;
