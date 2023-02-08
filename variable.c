@@ -124,7 +124,7 @@ void put(char *id, node_t *nptr) {
        //go thru all of the entries for that hashcode to check for same id 
        while(root -> next != NULL){
            //if the ids are the same
-           if(strcmp(root -> next -> id, id) == 0){
+           if(strcmp(id, root -> next -> id) == 0){
                //delete the old node 
                delete_entry(root -> next); 
                //create the new node 

@@ -324,6 +324,11 @@ static void eval_node(node_t *nptr) {
                             nptr -> val.ival = nptr -> children[0] -> val.ival * nptr -> children[1] -> val.ival;   
                             break; 
                         }
+
+                        else if(nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type != INT_TYPE){
+                            handle_error(ERR_EVAL);
+                            break; 
+                        }
                         
                         //loop to print how many times it is specified to repeat 
                         else{
@@ -492,6 +497,10 @@ static void eval_node(node_t *nptr) {
                     }
                     else if(nptr -> type == STRING_TYPE){
                         nptr -> val.sval = malloc(strlen(place -> val.sval) + 1);
+                    }
+
+                    else{
+                        handle_error(ERR_EVAL); 
                     }
 
 
