@@ -200,19 +200,29 @@ static void infer_type(node_t *nptr) {
                 case TOK_ID:; 
                     //getting the pointer of the id from the hashtable 
                     entry_t* index = get(nptr-> val.sval);
+                    // free(nptr -> val.sval); 
                     //throw an error if there isn't an entry for that id
                     if(index == NULL){
                         handle_error(ERR_UNDEFINED); 
                         return; 
                     }
+
+                    if(nptr -> type == INT_TYPE){
+                        nptr -> val.ival = index -> val.ival;
+                    }
+                    else if(nptr -> type == BOOL_TYPE){
+                        nptr -> val.bval = index -> val.bval;
+                    }
+                    else if(nptr -> type == STRING_TYPE){
+                        nptr -> val.sval = malloc(strlen(index -> val.sval) + 1);
+                    }
                     //set nptr's type equal to the type of the variable's value 
                     nptr -> type = index -> type; 
-                    break; 
-                
-                default:
-                    break; 
+                break; 
+        default:
+            break;
+        }
 
-            }
 
         default:
             break;
@@ -325,7 +335,8 @@ static void eval_node(node_t *nptr) {
                             break; 
                         }
 
-                        else if(nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type != INT_TYPE){
+                        else if((nptr -> children[0] -> type == STRING_TYPE && nptr -> children[1] -> type != INT_TYPE)
+                            || (nptr -> children[1] -> type == INT_TYPE && nptr -> children[1] -> val.ival < 0)){
                             handle_error(ERR_EVAL);
                             break; 
                         }
@@ -416,7 +427,7 @@ static void eval_node(node_t *nptr) {
                         }
                         break; 
                     
-                    case TOK_ASSIGN:;
+                    case TOK_ID:
                         //put the id: children[0], and value: children[1] into hashtable
                         put(nptr -> children[0] -> val.sval, nptr -> children[1]);
                         //free(nptr -> children[0] -> val.sval); 
@@ -481,30 +492,9 @@ static void eval_node(node_t *nptr) {
             break;
 
         case NT_LEAF:
-            switch(nptr -> tok){
-                case TOK_ID:;
-                    entry_t* place = get(nptr -> val.sval);
-                    free(nptr -> val.sval); 
-                    if(place == NULL){
-                        handle_error(ERR_SYNTAX);
-                        return;
-                    }
-                    if(nptr -> type == INT_TYPE){
-                        nptr -> val.ival = place -> val.ival;
-                    }
-                    else if(nptr -> type == BOOL_TYPE){
-                        nptr -> val.bval = place -> val.bval;
-                    }
-                    else if(nptr -> type == STRING_TYPE){
-                        nptr -> val.sval = malloc(strlen(place -> val.sval) + 1);
-                    }
-                break; 
+            break; 
         default:
-            break;
-        }
-        break; 
-    default:
-        break; 
+            break; 
     }
     return;
 }
