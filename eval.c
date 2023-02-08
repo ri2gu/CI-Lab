@@ -29,6 +29,8 @@ char *strrev(char *str);
  * (STUDENT TODO)
  */
 
+//you do shit for variable c here and you would use get to get the val and type
+//look at type.h 
 static void infer_type(node_t *nptr) {
     // check running status - you can ignore this
     if(nptr == NULL){
@@ -185,10 +187,21 @@ static void infer_type(node_t *nptr) {
                     break;
             }
         case NT_LEAF:
-            break;
+            switch(nptr -> tok){
+                case TOK_ID:
+                    get(nptr -> val.sval);
+                    //nptr -> type = 
+                    break; 
+                
+                default:
+                    break; 
+
+            }
+
         default:
             break;
     }
+
     return;
 }
 
