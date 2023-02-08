@@ -112,7 +112,7 @@ entry_t * init_entry(char *id, node_t *nptr) {
  */
 void put(char *id, node_t *nptr) {
     // Week 3 TODO: Implement adding to the hashtable.
-    int index = hash_function(id); 
+    unsigned long index = hash_function(id); 
     //if there isn't any entry for that hashcode in the hashtable 
     if(var_table->entries[index] == NULL){
         var_table->entries[index] = init_entry(id, nptr); 
@@ -122,6 +122,11 @@ void put(char *id, node_t *nptr) {
     else if(var_table->entries[index] != NULL){
        entry_t* root = var_table->entries[index];
        //go thru all of the entries for that hashcode to check for same id 
+       if(strcmp(root -> id, id) == 0){
+           delete_entry(root); 
+           var_table->entries[index] = init_entry(id, nptr); 
+           return; 
+       }
        while(root -> next != NULL){
            //if the ids are the same
            if(strcmp(id, root -> next -> id) == 0){
