@@ -378,7 +378,6 @@ static void eval_node(node_t *nptr) {
                                 if(val > 0){
                                     nptr -> val.bval = true; 
                                 }
-
                                 else{
                                     nptr -> val.bval = false; 
                                 }
@@ -389,13 +388,11 @@ static void eval_node(node_t *nptr) {
                             if(nptr -> children[0] -> type == INT_TYPE){
                                 nptr -> val.bval = nptr -> children[0] -> val.ival < nptr -> children[1] -> val.ival;
                             }
-
                             else{
                                 int val = strcmp(nptr -> children[0] -> val.sval, nptr -> children[1] -> val.sval); 
                                 if(val < 0){
                                     nptr -> val.bval = true; 
                                 }
-
                                 else{
                                     nptr -> val.bval = false; 
                                 } 
@@ -412,12 +409,16 @@ static void eval_node(node_t *nptr) {
                             if(val == 0){
                                 nptr -> val.bval = true; 
                             }
-
                             else{
                                 nptr -> val.bval = false; 
                             }
                         }
                         break; 
+                    
+                    case TOK_ASSIGN:
+                        //put the id: children[0], and value: children[1] into hashtable
+                        put(nptr -> children[0] -> val.sval, nptr -> children[1]);
+                        break;
 
                     default:
                         break;
@@ -555,19 +556,6 @@ char *strrev(char *str) {
     }
     string[index] = '\0'; 
     return string;
-
-    // int len = strlen(str); 
-    // int mid = len/2; 
-    // char temp; 
-    // for (int i = 0; i < mid; i++){
-    //     temp = str[i]; 
-    //     str[i] = str[len - i -1]; 
-    //     str[len - i - 1] = temp; 
-
-    // }
-
-    // return str; 
-  
 }
 
 /* cleanup() - frees the space allocated to the AST

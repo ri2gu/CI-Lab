@@ -123,9 +123,9 @@ void put(char *id, node_t *nptr) {
        entry_t* root = var_table->entries[index];
        while(root -> next != NULL){
            //if the id is the same, delete the entry 
-           if(root -> next == ){
-               delete_entry(root -> next); 
-           }
+        //    if(root -> next == ){
+        //        delete_entry(root -> next); 
+        //    }
            root -> next = root; 
        }
        root -> next = init_entry(id, nptr);
@@ -153,18 +153,24 @@ void put(char *id, node_t *nptr) {
  * Return value: Pointer to the matching entry, or NULL if not found.
  * (STUDENT TODO) 
  */
-
 entry_t* get(char* id) {
-    // Week 3 TODO: Implement retrieving from the hasttable.
-    //you just search for the id and have the pointer return it 
-    //loop through and compare 
-        for(int i = 0; i < sizeof(var_table -> entries); i++){
-            if(strcmp(var_table -> entries[i] -> val.sval, id) == 0){
-                return var_table -> entries[i]; 
-            }
+    // Week 3 TODO: Implement retrieving from the hashtable.
+    int index = hash_function(id); 
+    entry_t* place = var_table->entries[index];
+    //looping through all of the entries in the hashtable for that hashcode 
+    while(place != NULL){
+        //checking if the id matches
+        if(strcmp(place -> id, id) == 0){
+            return place; 
         }
+
+        //moving on to the next entry for that hashcode if it doesn't 
+        else{
+            place = place -> next; 
+        }
+    }
     
-    //if the same entry is never found, just return NULL 
+    //if the same id is never found, just return NULL 
     return NULL;
 }
 
