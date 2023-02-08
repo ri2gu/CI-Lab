@@ -207,14 +207,15 @@ static void infer_type(node_t *nptr) {
                         return; 
                     }
 
-                    if(nptr -> type == INT_TYPE){
+                    else if(index -> type == INT_TYPE){
                         nptr -> val.ival = index -> val.ival;
                     }
-                    else if(nptr -> type == BOOL_TYPE){
+                    else if(index -> type == BOOL_TYPE){
                         nptr -> val.bval = index -> val.bval;
                     }
-                    else if(nptr -> type == STRING_TYPE){
+                    else if(index -> type == STRING_TYPE){
                         nptr -> val.sval = malloc(strlen(index -> val.sval) + 1);
+                        strcpy(nptr -> val.sval, index -> val.sval); 
                     }
                     //set nptr's type equal to the type of the variable's value 
                     nptr -> type = index -> type; 
@@ -222,7 +223,6 @@ static void infer_type(node_t *nptr) {
         default:
             break;
         }
-
 
         default:
             break;
@@ -429,10 +429,10 @@ static void eval_node(node_t *nptr) {
                     
                     case TOK_ID:
                         //put the id: children[0], and value: children[1] into hashtable
-                        put(nptr -> children[0] -> val.sval, nptr -> children[1]);
+                        //put(nptr -> children[0] -> val.sval, nptr -> children[1]);
                         //free(nptr -> children[0] -> val.sval); 
                         break;
-
+                    
                     default:
                         break;
                 }
