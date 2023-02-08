@@ -121,30 +121,35 @@ void put(char *id, node_t *nptr) {
     //if the hashcodes are the same and you run into a collision 
     else if(var_table->entries[index] != NULL){
        entry_t* root = var_table->entries[index];
+       //go thru all of the entries for that hashcode to check for same id 
        while(root -> next != NULL){
-           //if the id is the same, delete the entry 
-        //    if(root -> next == ){
-        //        delete_entry(root -> next); 
-        //    }
+           //if the ids are the same
+           if(strcmp(root -> next -> id, id) == 0){
+               //delete the old node 
+               delete_entry(root -> next); 
+               //create the new node 
+               var_table->entries[index] = init_entry(id, nptr); 
+           }
+            //if that entry didn't match the current id 
            root -> next = root; 
        }
+       //if there were no entries with matching ids
        root -> next = init_entry(id, nptr);
-       //delete if same id 
     }
 
     //if you reassign the variable, then you want to put the new one in its place 
-    else{
-        //delete the old node
-        //loop through, strcmp, pass into delete entry
-        for(int i = 0; i < sizeof(var_table -> entries); i++){
-            if(strcmp(var_table -> entries[i] -> val.sval, id) == 0){
-                delete_entry(var_table -> entries[i]); 
-            }
-        }
+    // else{
+    //     //delete the old node
+    //     //loop through, strcmp, pass into delete entry
+    //     for(int i = 0; i < sizeof(var_table -> entries); i++){
+    //         if(strcmp(var_table -> entries[i] -> val.sval, id) == 0){
+    //             delete_entry(var_table -> entries[i]); 
+    //         }
+    //     }
 
-        //create the new node 
-        var_table->entries[index] = init_entry(id, nptr);  
-    }
+    //     //create the new node 
+    //     var_table->entries[index] = init_entry(id, nptr);  
+    // }
     return;
 }
 
