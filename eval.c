@@ -185,12 +185,11 @@ static void infer_type(node_t *nptr) {
                     break;
 
                 case TOK_ASSIGN:
-                    //looping through each of the children to individually infer their type
                     if(nptr-> children[0]-> type != ID_TYPE || nptr -> children[1]-> type == ID_TYPE) {
                         handle_error(ERR_TYPE);
                         return; 
                     } 
-                    nptr->type = nptr-> children[1]-> type;
+                    nptr -> type = nptr-> children[1] -> type;
                     break;
 
                 default:
@@ -412,9 +411,10 @@ static void eval_node(node_t *nptr) {
                         }
                         break; 
                     
-                    case TOK_ASSIGN:
+                    case TOK_ASSIGN:;
                         //put the id: children[0], and value: children[1] into hashtable
                         put(nptr -> children[0] -> val.sval, nptr -> children[1]);
+                        //free(nptr -> children[0] -> val.sval); 
                         break;
 
                     default:
@@ -474,10 +474,12 @@ static void eval_node(node_t *nptr) {
                 }
             }
             break;
+
         case NT_LEAF:
             switch(nptr -> tok){
                 case TOK_ID:;
                     entry_t* place = get(nptr -> val.sval);
+                    free(nptr -> val.sval); 
                     if(place == NULL){
                         handle_error(ERR_SYNTAX);
                         return;
@@ -489,8 +491,10 @@ static void eval_node(node_t *nptr) {
                         nptr -> val.bval = place -> val.bval;
                     }
                     else if(nptr -> type == STRING_TYPE){
-                        nptr->val.sval = malloc(strlen(place -> val.sval) + 1);
+                        nptr -> val.sval = malloc(strlen(place -> val.sval) + 1);
                     }
+
+
                 break; 
         default:
             break;
@@ -587,7 +591,7 @@ void cleanup(node_t *nptr) {
         //free the string 
         if(nptr -> type == STRING_TYPE || nptr -> type == ID_TYPE){
             free(nptr -> val.sval);
-            //nptr -> val.sval = NULL; 
+            nptr -> val.sval = NULL; 
         }
         //free the node 
         free(nptr); 
